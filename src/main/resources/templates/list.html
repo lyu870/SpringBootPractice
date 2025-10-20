@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<div class="card" th:each="i : ${items}">
+    <img src="https://placehold.co/300">
+    <div>
+        <!-- 내부적으로 getTitle() 호출. -->
+        <h4><a th:href="@{'/detail/' + ${i.id}}" th:text="${i.title}"></a></h4>
+        <p th:text="${i.price}"></p>
+        <a th:href="@{'/edit/' + ${i.id}}"}>✏️</a>
+        <button class="delete-btn" th:data-id="${i.id}">삭제</button>
+    </div>
+</div>
+
+
+<script>
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = this.dataset.id;
+
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+
+        const res = await fetch(`/delete/${id}`, { method: 'DELETE' });
+
+        if (res.ok) {
+          alert('삭제했습니다.');
+          location.reload(); // 페이지 새로고침
+        } else {
+          alert('삭제 실패');
+        }
+      });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<!--아이디나 비번 뭐가 틀렸는지 정확히 알려주는 건 보안상 좋지않음.-->
+<div th:if="${param.error}">
+    <h4>아이디나 비번 틀리셨습니다</h4>
+</div>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<form action="/login" method="POST">
+    <input name="username" type="text">
+    <input name="password" type="password">
+    <button type="submit">로그인</button>
+</form>
+
+</body>
+</html>
