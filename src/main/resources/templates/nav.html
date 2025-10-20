@@ -4,4 +4,7 @@
     <a class="logo">SpringMall</a>
     <a href="/list">List</a>
     <a href="write">Write</a>
+    <div sec:authorize="isAuthenticated()">
+        <a href="/logout">로그아웃</a>
+    </div>
 </div>
