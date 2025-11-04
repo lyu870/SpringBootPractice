@@ -1,4 +1,4 @@
-package com.hello.shop.Member;
+package com.hello.shop.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +11,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // /register로 접속했을 때 회원가입(멤버등록)을 수행하는 함수.
     public void saveMember(String username, String password, String displayName) throws Exception {
         // 빠른 실패로 불필요한 DB 호출/예외 줄이기
         if (username == null || password == null || displayName == null) {
@@ -31,5 +32,11 @@ public class MemberService {
         member.setPassword(hash);
         member.setDisplayName(displayName);
         memberRepository.save(member);
+    }
+
+    public MemberDto getMemberDtoById(Long id) {
+        Member member = memberRepository.findById(id) // Optional이 비어있으면 예외던지기로 흐름끊기.
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. id=" + id));
+        return new MemberDto(member.getUsername(), member.getDisplayName(), member.getId());
     }
 }

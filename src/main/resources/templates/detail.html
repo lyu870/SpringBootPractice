@@ -19,5 +19,24 @@
     <p th:text="${ data.price + '원' }"></p>
 </div>
 
+<!-- 댓글 UI -->
+<div class="card">
+    <h4>댓글</h4>
+
+    <div th:if="${#lists.isEmpty(comments)}">아직 댓글이 없습니다.</div>
+
+    <div th:each="c : ${comments}" style="border-top:1px solid #eee; padding:8px 0;">
+        <b th:text="${c.username}">username</b>
+        <p th:text="${c.content}" style="margin:4px 0 0 0;">내용</p>
+    </div>
+</div>
+
+<!-- 댓글 작성 폼 -->
+<form action="/comment" method="POST">
+    <input name="content">
+    <input type="hidden" name="parentId" th:value="${data.id}">
+    <button>댓글입력</button>
+</form>
+
 </body>
 </html>

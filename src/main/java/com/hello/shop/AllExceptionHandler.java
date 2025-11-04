@@ -18,6 +18,4 @@ public class AllExceptionHandler {
         return "redirect:/list";
     }
 
-
-
 }

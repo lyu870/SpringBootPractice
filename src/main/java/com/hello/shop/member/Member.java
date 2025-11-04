@@ -1,4 +1,4 @@
-package com.hello.shop.Member;
+package com.hello.shop.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;
