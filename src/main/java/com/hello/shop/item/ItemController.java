@@ -71,9 +71,20 @@ public class ItemController {
 
     // 게시글 작성 요청
     @PostMapping("/add")
-    String writePost(String title, Integer price) {
-        itemService.saveItem(title, price);
-        return "redirect:/list/page/1";
+    String writePost(@RequestParam String title,
+                     @RequestParam String price) { // 문자열로 받고 직접 검증
+        try {
+            int p = Integer.parseInt(price.trim());
+            if (p < 0) {
+                throw new IllegalArgumentException("가격은 0 이상이어야 합니다.");
+            }
+            itemService.saveItem(title, p);
+            return "redirect:/list/page/1";
+        } catch (NumberFormatException e) {
+            // 숫자 아님
+            // 에러 메시지 보여주고 다시 작성 화면으로 돌려보내거나, 쿼리스트링으로 표시
+            return "redirect:/write?error=price";
+        }
     }
 
     // 게시글 수정 요청

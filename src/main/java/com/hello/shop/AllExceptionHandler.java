@@ -10,7 +10,7 @@ public class AllExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handler() {
-        return ResponseEntity.status(400).body("error");
+        return ResponseEntity.status(400).body("ERROR! 이전페이지로 이동해주세요.");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
