@@ -29,7 +29,8 @@ public class MyUserDataService implements UserDetailsService {
                 member.getUsername(),
                 member.getPassword(),   // 반드시 인코딩된 비번
                 authorities,
-                member.getDisplayName()
+                member.getDisplayName(),
+                member.getId()
         );
     }
 }

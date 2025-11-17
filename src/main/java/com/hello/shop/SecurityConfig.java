@@ -1,12 +1,15 @@
 package com.hello.shop;
 
+import com.hello.shop.member.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -21,8 +24,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/**")
+        http.csrf(csrf -> csrf.disable());
+
+        http.sessionManagement((session) -> session // 로그인했을 때 세션데이터 생성하지 말기.
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+        http.addFilterBefore(new JwtFilter(), ExceptionTranslationFilter.class); // ExceptionTranslationFilter전에 JwtFilter동작.
+
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/**")
                 .permitAll().anyRequest().permitAll()
         );
 

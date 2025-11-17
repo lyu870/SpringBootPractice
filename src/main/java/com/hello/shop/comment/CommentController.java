@@ -17,7 +17,7 @@ public class CommentController {
     @PostMapping("/comment")
     String postComment(@RequestParam String content,
                        @RequestParam Long parentId,
-                       @AuthenticationPrincipal CustomUser user) { // 사용자 바로 주입
+                       @AuthenticationPrincipal CustomUser user) { // Authentication으로 받지말고 사용자 바로 주입
         if (user == null) { // 미로그인 방어
             return "redirect:/login?redirect=/detail/" + parentId;
         }
